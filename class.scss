@@ -1,0 +1,128 @@
+//这里全部用@mixin来定义, 而没有用%
+//主要是考虑%定义不明显, 调用麻烦, @include 和 @extend 容易混淆
+//很多SCSS框架语法都太复杂
+//这次精简YO, 并参考了其他的SCSS框架, 就是为了"写"出傻瓜也能看懂的SCSS框架
+
+//文字超出长度打点
+@mixin ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+//文字水平垂直居中的按钮
+@mixin btn($height, $bg, $color: #fff) {
+    display: block;
+    height: $height;
+    line-height: $height;
+    text-align: center;
+    color: $color;
+    background: $bg;
+}
+
+//全屏
+@mixin fullscreen($zindex: null, $position: absolute) {
+    position: $position;
+    z-index: $zindex;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+//伸缩盒模型
+@mixin display-flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+
+//这是一个复合属性, 这里默认是auto
+@mixin flex($flex: 1, $derection: row) {
+    -webkit-box-flex: $flex;
+    -webkit-flex: $flex;
+    flex: $flex;
+
+    //修复Android Browser4.3及以下，iOS Safari6.1及以下按比例分配错误的问题
+    @if ($derection == row) {
+        width: .1px;
+    }
+}
+
+//定义flex子元素的排列顺序
+@mixin order($order: 1) {
+    -webkit-box-ordinal-group: $order;
+    -webkit-order: $order;
+    order: $order;
+}
+
+//定义flex子元素的流动方向, 默认为横轴, 则横轴为主轴, 纵轴为交叉轴
+@mixin flex-direction($flex-direction: row) {
+    @if $flex-direction == row {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+    } @else if $flex-direction == column {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+    } @else if $flex-direction == row-reverse {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: reverse;
+    } @else if $flex-direction == column-reverse {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: reverse;
+    }
+    -webkit-flex-direction: $flex-direction;
+    flex-direction: $flex-direction;
+}
+
+//定义flex子元素是否换行, 默认不换行
+@mixin flex-wrap($flex-wrap: nowrap) {
+    @if $flex-wrap == nowrap {
+        -webkit-box-lines: single;
+    } @else {
+        -webkit-box-lines: multiple;
+    }
+    -webkit-flex-wrap: $flex-wrap;
+    flex-wrap: $flex-wrap;
+}
+
+//定义flex子元素的主轴对齐方式
+@mixin justify-content($justify-content: center) {
+    @if $justify-content == center {
+        -webkit-box-pack: center;
+    } @else if $justify-content == flex-start {
+        -webkit-box-pack: start;
+    } @else if $justify-content == flex-end {
+        -webkit-box-pack: end;
+    } @else if $justify-content == space-between {
+        -webkit-box-pack: justify;
+    }
+    -webkit-justify-content: $justify-content;
+    justify-content: $justify-content;
+}
+
+//定义flex子元素的交叉轴对齐方式, 默认为stretch 铺满屏幕
+@mixin align-items($align-items: stretch) {
+    @if $align-items == center {
+        -webkit-box-align: center;
+    } @else if $align-items == flex-start {
+        -webkit-box-align: start;
+    } @else if $align-items == flex-end {
+        -webkit-box-align: end;
+    } @else {
+        -webkit-box-align: $align-items;
+    }
+    -webkit-align-items: $align-items;
+    align-items: $align-items;
+}
+
+//定义flex子元素自声垂直对齐方式, 可以覆盖父元素的align-items
+//iOS7.0+,Android4.4+
+@mixin align-self($align-self: center) {
+    -webkit-align-self: $align-self;
+    align-self: $align-self;
+}
+
+
+
+
